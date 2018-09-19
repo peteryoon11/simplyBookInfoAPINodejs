@@ -25,10 +25,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 
-//app.use(express.static(__dirname + '/public'));
-
-
-// Handle uploads through Flow.js
 var server = http.createServer(app);
 server.listen(config.server.server_port, function() {
   //  console.log("port number = "+config.server.server_port);
@@ -82,11 +78,29 @@ const userAgent = headers['user-agent'];
 //validationModule(validationObject);
   //  if(dbModulev2.getUserValdationInfo(validationObject)){
        var Result=new Object();
-       
-validationModule(validationObject,(count)=>{
-    console.log("count "+count);
-});
+    
+       validationModule(validationObject,(rows)=>{
+           if(rows==1){
+            dbModulev2.getUserBookInfo(validationObject,(bookInfo)=>{
+                console.log("====================");
+                console.log(bookInfo);
+                res.json({"code":200,"message":"Respond Success","data":bookInfo});
 
+            });
+            
+           }else{
+            res.json({"code":403,"message":"Invalid Auth key or Expire key","data":null});       
+           }
+       });
+    
+    /* if(false == validationModule(validationObject) ){
+        res.json({"code":403,"message":"Invalid Auth key or Expire key","data":null});
+    } */
+
+    /* validationModule(validationObject,(count)=>{
+        console.log("count "+count);
+    });
+ */
 /* 
     if(validationModule(validationObject,()=>{
         console.log("callback is call");
@@ -116,60 +130,4 @@ validationModule(validationObject,(count)=>{
 
  
 
-    // output message
-
-    //res.json({result:"success"});
-
-
-
-
-
-   // res.status(400).send('400');
-    return;
-    console.log("after return");
-    /* 
-    
-    logger.info("now connect?  : UploadPsynet ");
-    
-    if (false == AuthUrlPsynet(req)) {
-        res.status(400).send('400');
-        return;
-    }
-    var user = req.query.user;
-    var path = req.query.path;
-    var passwd = req.query.passwd;
-    var remote_path = path.replace(new RegExp('[/]+', 'g'), '/'); // user should be included to path? it depends on the configuration of ftp server!!
-
-    if (undefined == remote_path || 0 == remote_path.length) {
-        res.status(403).send('403');
-        return;
-    }
-    logger.info("remote_path : " + remote_path);
-    var ftpclient = new NimbusFtpClient(user, passwd, config.ftp_server.host, config.ftp_server.port, logger, function(err) {
-        if (err) {
-            UploadResultPsynet(res, false);
-            return;
-        } 
-        ftpclient.upload(remote_path, req, function(result) {
-            UploadResultPsynet(res, result);
-        });
-    });
-    req.on('aborted', function(err, socket) {
-        logger.info("Client aborted");
-        ftpclient.close();
-        var ftpclient2 = new NimbusFtpClient(user, passwd, config.ftp_server.host, config.ftp_server.port, logger, function(err) {
-            ftpclient2.delete(remote_path, function(err) {});
-            UploadResultPsynet(res, false);
-        });
-    });
-    req.on('abort', function(err, socket) {
-        logger.info("Client aborted");
-        ftpclient.close();
-        var ftpclient2 = new NimbusFtpClient(user, passwd, config.ftp_server.host, config.ftp_server.port, logger, function(err) {
-            ftpclient2.delete(remote_path, function(err) {});
-            UploadResultPsynet(res, false);
-        });
-    });
-
-    logger.info("done : UploadPsynet "); */
 }

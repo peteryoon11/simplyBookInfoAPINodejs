@@ -7,10 +7,17 @@ module.exports=function(valiationObject,callback){
    //console.log(dbConnector.getValidtionKey(valiationObject)+ " export ");
   // var count = dbConnector.getValidtionKey(valiationObject);
    // console.log("count in validation "+ count);
+   //return false;
+   var rows;
+    dbConnector.getValidtionKey(valiationObject,(rows)=>{
+        console.log(rows + " in valitaionModule");
+        callback(rows);
+    });
+
+    //console.log(rows + " rows in valitaionModule");
     
 
-   callback("test count");
-
+   
  /*    if (dbConnector.getValidtionKey(valiationObject)==1){
         console.log("get vali true");
         
