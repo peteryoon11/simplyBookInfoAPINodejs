@@ -18,6 +18,13 @@ var http = require('http');
 var config = require('./config.json');
 var app = express();
 var logger;
+
+var bodyParser = require('body-parser');
+ 
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
+
+
 //app.use(express.static(__dirname + '/public'));
 
 
@@ -39,18 +46,87 @@ server.listen(config.server.server_port, function() {
 }); */
 
 app.put('/getMyBook', getMyBookFun);
-var dbModule=require("./dbModule");
+
 var dbModulev2 = require("./module/dbModule");
+var validationModule= require("./module/valiationModule");
+
+
 function getMyBookFun(req, res) {
     
 
 
     console.log("test log");
-    dbModule();
-    dbModulev2();
+   // dbModule();
+   // dbModulev2.getUserValdationInfo();
     //res.write
-    res.status(400).send('400');
+    const {} = req;
+
+    const { headers,body } = req;
+const userAgent = headers['user-agent'];
+//res.setHeader("Content-Type", "text/html");
+   
+    console.log(req.body.ID);
+    console.log(req.body.APIKey);
+
+    var validationObject ;//=new Object();
+    
+    validationObject={"ID":req.body.ID,"APIKey":req.body.APIKey};
+    //validationObject.APIKey=;
+   // console.log(JSON.parse(req.body));
+   // console.log(req)
+    //console.log(JSON.parse(req.body));
+
+    console.log(userAgent + " userAgent");
+
+    req.accepts('application/json');
+//validationModule(validationObject);
+  //  if(dbModulev2.getUserValdationInfo(validationObject)){
+       var Result=new Object();
+       
+validationModule(validationObject,(count)=>{
+    console.log("count "+count);
+});
+
+/* 
+    if(validationModule(validationObject,()=>{
+        console.log("callback is call");
+    })){
+        //res.json({result:"success"});
+       Result.Code=200;
+       Result.Message="Respond Success";
+       Result.Data="";
+        res.json(Result);
+
+
+    }else{
+        res.json({result:"success"});
+
+    } */
+
+//req.setHeader("Content-Type", "text/html");
+    //response.setHeader("Content-Type", "text/html");
+
+    // input message handling
+
+    //json = req.body;
+
+   // console.log('name is :'+json.name);
+
+    //console.log('address is :'+json.address);
+
+ 
+
+    // output message
+
+    //res.json({result:"success"});
+
+
+
+
+
+   // res.status(400).send('400');
     return;
+    console.log("after return");
     /* 
     
     logger.info("now connect?  : UploadPsynet ");
