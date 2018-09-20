@@ -82,8 +82,8 @@ const userAgent = headers['user-agent'];
        validationModule(validationObject,(rows)=>{
            if(rows==1){
             dbModulev2.getUserBookInfo(validationObject,(bookInfo)=>{
-                console.log("====================");
-                console.log(bookInfo);
+                //console.log("====================");
+                //console.log(bookInfo);
                 res.json({"code":200,"message":"Respond Success","data":bookInfo});
 
             });
@@ -93,40 +93,6 @@ const userAgent = headers['user-agent'];
            }
        });
     
-    /* if(false == validationModule(validationObject) ){
-        res.json({"code":403,"message":"Invalid Auth key or Expire key","data":null});
-    } */
-
-    /* validationModule(validationObject,(count)=>{
-        console.log("count "+count);
-    });
- */
-/* 
-    if(validationModule(validationObject,()=>{
-        console.log("callback is call");
-    })){
-        //res.json({result:"success"});
-       Result.Code=200;
-       Result.Message="Respond Success";
-       Result.Data="";
-        res.json(Result);
-
-
-    }else{
-        res.json({result:"success"});
-
-    } */
-
-//req.setHeader("Content-Type", "text/html");
-    //response.setHeader("Content-Type", "text/html");
-
-    // input message handling
-
-    //json = req.body;
-
-   // console.log('name is :'+json.name);
-
-    //console.log('address is :'+json.address);
 
  
 
